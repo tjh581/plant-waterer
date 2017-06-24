@@ -30,26 +30,22 @@ def read_moisture(x):
 
 #print read_moisture(0)
 
-#cleanup GPIO
-GPIO.cleanup()
 #set GPIO numbering
 GPIO.setmode(GPIO.BCM)
 #set pin 17 as output and default of off
 GPIO.setup(17, GPIO.OUT, initial=GPIO.LOW)
 
-localtime = time.asctime( time.localtime(time.time()) )
-
 
 while True:
     if read_moisture(0) > 1000:
         GPIO.output(17, True) #turn on water
-        time.sleep(5) #
+        time.sleep(5)
         GPIO.output(17, False)  #turn off water
+        localtime = time.asctime( time.localtime(time.time()) )
         print "Plant watered at:", localtime
     else:
+        localtime = time.asctime( time.localtime(time.time()) )
         print "Plant did not need water:", localtime
 
 
     time.sleep(15)
-
-    break
