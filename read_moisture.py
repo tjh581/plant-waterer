@@ -7,6 +7,9 @@ import Adafruit_ADS1x15
 #import numpy for median
 import numpy
 
+#import Raspberry Pi GPIO
+import RPi.GPIO as GPIO
+
 #create a function to reutrn the soil moisture; x = channel
 def read_moisture(x):
     #Create an ADS1015 ADC (12-bit) instance
@@ -25,4 +28,28 @@ def read_moisture(x):
 
     return soil
 
-print read_moisture(0)
+#print read_moisture(0)
+
+#cleanup GPIO
+GPIO.cleanup()
+#set GPIO numbering
+GPIO.setmode(GPIO.BCM)
+#set pin 17 as output and default of off
+GPIO.setup(17, GPIO.OUT, initial=GPIO.LOW)
+
+localtime = time.asctime( time.localtime(time.time()) )
+
+
+while True:
+    if read_moisture(0) > 1000:
+        GPIO.output(17, True) #turn on water
+        time.sleep(5) #
+        GPIO.output(17, False)  #turn off water
+        print "Plant watered at:", localtime
+    else:
+        print "Plant did not need water:", localtime
+
+
+    time.sleep(15)
+
+    break
