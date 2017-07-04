@@ -39,7 +39,7 @@ GPIO.setup(17, GPIO.OUT, initial=GPIO.LOW)
 while True:
     if read_moisture(0) > 1000:
         GPIO.output(17, True) #turn on water
-        time.sleep(20)
+        time.sleep(5)
         GPIO.output(17, False)  #turn off water
         localtime = time.asctime( time.localtime(time.time()) )
         print "Plant watered at:", localtime
